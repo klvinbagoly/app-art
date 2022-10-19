@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <script src="assets/js/main.js" defer></script>
+  <script src="https://kit.fontawesome.com/7aeb4aecb0.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AppArt</title>
+</head>
+
+<body>
+  <header>
+    <h1>Welcome to AppArt!</h1>
+    <p>Here is your canvas.</p>
+  </header>
+  <main>
+    <canvas id="myCanvas"></canvas>
+    <div class="tools">
+      <div class="tool-group">
+        <input type="color" name="brushColor" id="brushColor">
+        <label for="brushColor">Please choose a color.</label>
+      </div>
+      <div class="tool-group">
+        <div class="width-indicator"></div>
+        <input type="range" max="15" name="brushWidth" id="brushWidth">
+        <label for="brushWidth">Please choose the width of your brush.</label>
+      </div>
+    </div>
+    <div class="tools">
+      <div class="tool-group">
+        <button class="delete-btn">
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+        <span class="delete-text">Delete your work</span>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
