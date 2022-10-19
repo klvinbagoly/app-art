@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Roboto&display=swap');
+
+html {
+  font-family: 'Roboto', sans-serif;
+  background-color: cornsilk;
+}
+
+body {
+  margin: 0;
+
+}
+
+header {
+  background-color: darkkhaki;
+  color: brown;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 40px;
+  color: darkred;
+  text-shadow: 1px 1px cornsilk;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#myCanvas {
+  cursor: crosshair;
+  width: 90%;
+  height: 60%;
+  margin: 20px auto;
+  background-color: white;
+  border: 10px goldenrod inset;
+  border-color: rgb(131, 99, 17) rgb(159, 120, 20) goldenrod rgb(238, 182, 39);
+}
+
+.tools {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 20px auto;
+  width: 100%;
+}
+
+.tools input {
+  cursor: pointer;
+}
+
+.tools input[type="color"] {
+  height: 40px;
+  width: 60px;
+  border-radius: 3px;
+}
+
+.tool-group {
+  display: flex;
+  align-items: center;
+}
+
+.tool-group label,
+.tool-group span {
+  margin-left: 15px;
+}
+
+.width-indicator {
+  border: 4px solid black;
+  border-radius: 100%;
+}
+
+.delete-btn {
+  background-color: tomato;
+  color: whitesmoke;
+  padding: 5px 10px;
+  border: 5px solid moccasin;
+  border-radius: 10px;
+  font-size: large;
+  transition: all 0.5s ease-in-out;
+}
+
+.delete-btn:hover {
+  cursor: pointer;
+  color: rgb(37, 37, 37);
+  border-color: salmon;
+  background-color: rgb(255, 144, 124);
+}
+
+.delete-btn:hover~.delete-text {
+  font-size: larger;
+  color: red;
+  font-weight: bolder;
+}
