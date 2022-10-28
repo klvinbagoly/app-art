@@ -40,6 +40,12 @@ main {
   border-color: rgb(131, 99, 17) rgb(159, 120, 20) goldenrod rgb(238, 182, 39);
 }
 
+#preview {
+  display: none;
+  position: absolute;
+  border: 10px solid transparent;
+}
+
 .tools {
   display: flex;
   justify-content: space-evenly;

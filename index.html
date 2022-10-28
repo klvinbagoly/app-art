@@ -18,6 +18,7 @@
   </header>
   <main>
     <canvas id="myCanvas"></canvas>
+    <canvas id="preview"></canvas>
     <div class="tools">
       <div class="tool-group">
         <input type="color" name="brushColor" id="brushColor">
@@ -43,7 +44,7 @@
         <label for="globalAlpha">Transparency/opacity of color</label>
       </div>
       <div class="tool-group">
-        <p>Shape of brush</p>
+        <p>Shape of brush:</p>
         <label for="round">
           <input type="radio" name="brushShape" id="round" value="round" checked>
           Round
@@ -51,6 +52,39 @@
         <label for="square">
           <input type="radio" name="brushShape" id="square" value="square">
           Square
+        </label>
+      </div>
+    </div>
+    <p>Draw mode:</p>
+    <div class="tools">
+      <div class="tool-group">
+        <label for="drawFree">
+          <input checked type="radio" name="drawMode" id="drawFree" value="drawFree">
+          Draw freely
+        </label>
+      </div>
+      <div class="tool-group">
+        <label for="straightLine">
+          <input type="radio" name="drawMode" id="straightLine" value="straightLine">
+          Draw straight line
+        </label>
+      </div>
+      <div class="tool-group">
+        <label for="rect">
+          <input type="radio" name="drawMode" id="rect" value="rect">
+          Draw rectangle
+        </label>
+      </div>
+      <div class="tool-group">
+        <label for="circle">
+          <input type="radio" name="drawMode" id="circle" value="circle">
+          Draw circle (from edge)
+        </label>
+      </div>
+      <div class="tool-group">
+        <label for="circleCenter">
+          <input type="radio" name="drawMode" id="circleCenter" value="circleCenter">
+          Draw circle (from center point)
         </label>
       </div>
     </div>
