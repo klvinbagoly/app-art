@@ -43,8 +43,16 @@ main {
 .tools {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
   margin: 20px auto;
   width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .tools {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .tools input {
@@ -60,6 +68,8 @@ main {
 .tool-group {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 2em;
 }
 
 .tool-group label,

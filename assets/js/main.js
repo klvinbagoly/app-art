@@ -5,6 +5,7 @@ const app = {
   color: 'black',
   width: 8,
   active: false,
+  fillMode: false,
   x: 0,
   y: 0,
   init() {
@@ -12,13 +13,19 @@ const app = {
     this.context = this.canvas.getContext('2d')
     this.canvasRect = this.canvas.getClientRects()[0]
     this.getCanvasSize()
+    this.context.fillStyle = 'white'
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    this.context.fillStyle = this.color
     this.context.strokeStyle = this.color
     this.context.lineWidth = this.width
+    this.context.lineCap = 'round'
+    this.context.lineJoin = 'round'
 
     this.canvas.addEventListener('mousedown', this.beginLine.bind(this))
     this.canvas.addEventListener('mousemove', this.drawLine.bind(this))
     this.canvas.addEventListener('mouseup', () => {
       this.active = false
+      if (this.fillMode) this.context.fill()
     })
 
     window.addEventListener('resize', this.getCanvasSize.bind(this))
@@ -62,10 +69,14 @@ const app = {
     const widthSlide = document.querySelector('#brushWidth')
     const widthIndicator = document.querySelector('.width-indicator')
     const deleteBtn = document.querySelector('.delete-btn')
+    const globalAlpha = document.querySelector('#globalAlpha')
+    const shapeButtons = document.querySelectorAll('input[name="brushShape"]')
+    const fillModeChecker = document.querySelector('#fillMode')
 
     colorPicker.addEventListener('change', () => {
       this.color = colorPicker.value
       this.context.strokeStyle = this.color
+      this.context.fillStyle = this.color
       widthIndicator.style.borderColor = this.color
     })
 
@@ -78,6 +89,33 @@ const app = {
     deleteBtn.addEventListener('click', () => {
       this.context.fillStyle = 'white'
       this.context.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    })
+
+    globalAlpha.addEventListener('change', () => {
+      this.context.globalAlpha = globalAlpha.value
+      widthIndicator.style.opacity = globalAlpha.value
+    })
+
+    shapeButtons.forEach(button => {
+      button.addEventListener('change', () => {
+        if (button.checked) {
+          if (button.value === 'square') {
+            this.context.lineCap = 'square'
+            this.context.lineJoin = 'miter'
+            widthIndicator.style.borderRadius = '0'
+          } else {
+            this.context.lineCap = 'round'
+            this.context.lineJoin = 'round'
+            widthIndicator.style.borderRadius = '100%'
+          }
+
+        }
+      })
+    })
+
+    fillModeChecker.addEventListener('change', () => {
+      this.fillMode = fillModeChecker.checked
+      if (this.fillMode) this.context.lineWidth = 1
     })
   }
 }
