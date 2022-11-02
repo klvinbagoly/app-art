@@ -1,3 +1,5 @@
+'use strict'
+
 const app = {
   canvas: null,
   context: null,
@@ -84,26 +86,26 @@ const app = {
     this.previewPath = new Path2D()
     switch (this.drawMode) {
       case 'straightLine':
-        this.previewPath.moveTo(this.startingPoint[0], this.startingPoint[1])
+        this.previewPath.moveTo(...this.startingPoint)
         this.previewPath.lineTo(this.x, this.y)
         this.previewCtx.stroke(this.previewPath)
         break;
       case 'rect':
-        this.previewPath.rect(this.startingPoint[0], this.startingPoint[1],
+        this.previewPath.rect(...this.startingPoint,
           this.x - this.startingPoint[0], this.y - this.startingPoint[1])
         this.previewCtx.stroke(this.previewPath)
         break;
       case 'circle':
         radius = Math.min(this.x - this.startingPoint[0], this.y - this.startingPoint[1]) / 2
         this.previewPath.arc(this.startingPoint[0] + radius, this.startingPoint[1] + radius,
-          radius, 0, Math.PI * 2)
+          Math.abs(radius), 0, Math.PI * 2)
         this.previewCtx.stroke(this.previewPath)
         break;
       case 'circleCenter':
         radius = Math.sqrt(
           (this.x - this.startingPoint[0]) ** 2 + (this.y - this.startingPoint[1]) ** 2
         )
-        this.previewPath.arc(this.startingPoint[0], this.startingPoint[1], radius,
+        this.previewPath.arc(...this.startingPoint, radius,
           0, Math.PI * 2)
         this.previewCtx.stroke(this.previewPath)
         break;
