@@ -19,75 +19,95 @@
   <main>
     <canvas id="myCanvas"></canvas>
     <canvas id="preview"></canvas>
-    <div class="tools">
-      <div class="tool-group">
-        <input type="color" name="brushColor" id="brushColor">
-        <label for="brushColor">Please choose a color.</label>
+    <fieldset>
+      <legend>Choose the properties of your brush:</legend>
+      <div class="tools">
+        <div class="tool-group">
+          <input type="color" name="brushColor" id="brushColor">
+          <label for="brushColor">Please choose a color.</label>
+        </div>
+        <div class="tool-group">
+          <div class="width-indicator"></div>
+          <input type="range" min="1" max="50" value="5" name="brushWidth" id="brushWidth">
+          <label for="brushWidth">Please choose the width of your brush.</label>
+        </div>
       </div>
-      <div class="tool-group">
-        <div class="width-indicator"></div>
-        <input type="range" min="1" max="50" value="5" name="brushWidth" id="brushWidth">
-        <label for="brushWidth">Please choose the width of your brush.</label>
+      <div class="tools">
+        <div class="tool-group">
+          <input type="range" name="globalAlpha" id="globalAlpha" max="1" step="any" value="1">
+          <label for="globalAlpha">Transparency/opacity of color</label>
+        </div>
+        <div class="tool-group">
+          <p>Shape of brush:</p>
+          <label for="round">
+            <input type="radio" name="brushShape" id="round" value="round" checked>
+            Round
+          </label>
+          <label for="square">
+            <input type="radio" name="brushShape" id="square" value="square">
+            Square
+          </label>
+        </div>
       </div>
-    </div>
-    <div class="tools">
-      <div class="tool-group">
-        <label for="fillMode">
-          <input type="checkbox" name="fillMode" id="fillMode">
-          Fill encircled shape
-        </label>
+      <div class="tools">
+        <div class="tool-group">
+          <label for="fillMode">
+            <input type="checkbox" name="fillMode" id="fillMode">
+            Fill encircled shape
+          </label>
+        </div>
       </div>
-    </div>
-    <div class="tools">
-      <div class="tool-group">
-        <input type="range" name="globalAlpha" id="globalAlpha" max="1" step="any" value="1">
-        <label for="globalAlpha">Transparency/opacity of color</label>
+    </fieldset>
+    <fieldset>
+      <legend>Draw mode:</legend>
+      <div class="tools rect-radius">
+        <div class="tool-group">
+          <label for="rect-radius">
+            Border radius of rectangle:
+            <input type="range" name="rect-radius" id="rect-radius" value="0" max="100">
+            <output for="rect-radius">0</output>
+          </label>
+        </div>
       </div>
-      <div class="tool-group">
-        <p>Shape of brush:</p>
-        <label for="round">
-          <input type="radio" name="brushShape" id="round" value="round" checked>
-          Round
-        </label>
-        <label for="square">
-          <input type="radio" name="brushShape" id="square" value="square">
-          Square
-        </label>
+      <div class="tools">
+        <div class="tool-group">
+          <label for="drawFree">
+            <input checked type="radio" name="drawMode" id="drawFree" value="drawFree">
+            Draw freely
+          </label>
+        </div>
+        <div class="tool-group">
+          <label for="straightLine">
+            <input type="radio" name="drawMode" id="straightLine" value="straightLine">
+            Draw straight line
+          </label>
+        </div>
+        <div class="tool-group">
+          <label for="rect">
+            <input type="radio" name="drawMode" id="rect" value="rect">
+            Draw rectangle
+          </label>
+        </div>
+        <div class="tool-group">
+          <label for="circle">
+            <input type="radio" name="drawMode" id="circle" value="circle">
+            Draw circle (from edge)
+          </label>
+        </div>
+        <div class="tool-group">
+          <label for="circleCenter">
+            <input type="radio" name="drawMode" id="circleCenter" value="circleCenter">
+            Draw circle (from center point)
+          </label>
+        </div>
+        <div class="tool-group">
+          <label for="ellipse">
+            <input type="radio" name="drawMode" id="ellipse" value="ellipse">
+            Draw ellipse
+          </label>
+        </div>
       </div>
-    </div>
-    <p>Draw mode:</p>
-    <div class="tools">
-      <div class="tool-group">
-        <label for="drawFree">
-          <input checked type="radio" name="drawMode" id="drawFree" value="drawFree">
-          Draw freely
-        </label>
-      </div>
-      <div class="tool-group">
-        <label for="straightLine">
-          <input type="radio" name="drawMode" id="straightLine" value="straightLine">
-          Draw straight line
-        </label>
-      </div>
-      <div class="tool-group">
-        <label for="rect">
-          <input type="radio" name="drawMode" id="rect" value="rect">
-          Draw rectangle
-        </label>
-      </div>
-      <div class="tool-group">
-        <label for="circle">
-          <input type="radio" name="drawMode" id="circle" value="circle">
-          Draw circle (from edge)
-        </label>
-      </div>
-      <div class="tool-group">
-        <label for="circleCenter">
-          <input type="radio" name="drawMode" id="circleCenter" value="circleCenter">
-          Draw circle (from center point)
-        </label>
-      </div>
-    </div>
+    </fieldset>
     <div class="tools">
       <div class="tool-group">
         <button class="delete-btn">

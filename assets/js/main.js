@@ -17,6 +17,8 @@ const app = {
   fillMode: false,
   x: 0,
   y: 0,
+  rectRadius: 0,
+
   init() {
     this.canvas = document.querySelector('#myCanvas')
     this.context = this.canvas.getContext('2d')
@@ -91,14 +93,28 @@ const app = {
         this.previewCtx.stroke(this.previewPath)
         break;
       case 'rect':
-        this.previewPath.rect(...this.startingPoint,
-          this.x - this.startingPoint[0], this.y - this.startingPoint[1])
+        if (typeof this.context.roundRect === 'function') {
+          // Not supported in Firefox.
+          this.previewPath.roundRect(...this.startingPoint,
+            this.x - this.startingPoint[0],
+            this.y - this.startingPoint[1],
+            this.rectRadius
+          )
+        } else {
+          this.previewPath.rect(...this.startingPoint,
+            this.x - this.startingPoint[0], this.y - this.startingPoint[1])
+        }
         this.previewCtx.stroke(this.previewPath)
         break;
       case 'circle':
-        radius = Math.min(this.x - this.startingPoint[0], this.y - this.startingPoint[1]) / 2
-        this.previewPath.arc(this.startingPoint[0] + radius, this.startingPoint[1] + radius,
-          Math.abs(radius), 0, Math.PI * 2)
+        // radius = Math.min(this.x - this.startingPoint[0], this.y - this.startingPoint[1]) / 2
+        // this.previewPath.arc(this.startingPoint[0] + radius, this.startingPoint[1] + radius,
+        //   Math.abs(radius), 0, Math.PI * 2)
+        const circleCenter = [(this.x + this.startingPoint[0]) / 2, (this.y + this.startingPoint[1]) / 2]
+        radius = Math.sqrt(
+          (this.x - this.startingPoint[0]) ** 2 + (this.y - this.startingPoint[1]) ** 2
+        ) / 2
+        this.previewPath.arc(...circleCenter, radius, 0, Math.PI * 2)
         this.previewCtx.stroke(this.previewPath)
         break;
       case 'circleCenter':
@@ -107,6 +123,13 @@ const app = {
         )
         this.previewPath.arc(...this.startingPoint, radius,
           0, Math.PI * 2)
+        this.previewCtx.stroke(this.previewPath)
+        break;
+      case 'ellipse':
+        const center = [(this.x + this.startingPoint[0]) / 2, (this.y + this.startingPoint[1]) / 2]
+        const radiusX = Math.abs(this.x - center[0])
+        const radiusY = Math.abs(this.y - center[1])
+        this.previewPath.ellipse(...center, radiusX, radiusY, 0, 0, Math.PI * 2)
         this.previewCtx.stroke(this.previewPath)
         break;
       default:
@@ -144,6 +167,7 @@ const app = {
     const shapeButtons = document.querySelectorAll('input[name="brushShape"]')
     const fillModeChecker = document.querySelector('#fillMode')
     const drawModeButtons = document.querySelectorAll('input[name="drawMode"]')
+    const rectRadius = document.querySelector('input#rect-radius')
 
     colorPicker.addEventListener('change', () => {
       this.color = colorPicker.value
@@ -198,12 +222,21 @@ const app = {
         if (button.checked) {
           this.drawMode = button.value
         }
-        if (['straightLine', 'rect', 'circle', 'circleCenter'].includes(this.drawMode)) {
+        if (['straightLine', 'rect', 'circle', 'circleCenter', 'ellipse'].includes(this.drawMode)) {
           this.preview.style.display = 'block'
         } else {
           this.preview.style.display = 'none'
         }
+        const rectRadius = document.querySelector('.rect-radius')
+        const rectRadiusEnabled = typeof this.context.roundRect === 'function'
+        rectRadius.style.display = this.drawMode === 'rect' && rectRadiusEnabled ? 'flex' : 'none'
       })
+    })
+
+    rectRadius.addEventListener('input', () => {
+      const output = document.querySelector('output[for="rect-radius"]')
+      output.value = rectRadius.value
+      this.rectRadius = rectRadius.value
     })
   }
 }
