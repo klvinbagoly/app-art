@@ -110,6 +110,20 @@
     </fieldset>
     <div class="tools">
       <div class="tool-group">
+        <button class="save-btn">
+          <i class="fa fa-floppy-disk"></i>
+          Save your picture to storage
+        </button>
+      </div>
+      <div class="tool-group">
+        <button class="load-btn">
+          <i class="fa fa-image"></i>
+          Load picture from storage
+        </button>
+      </div>
+    </div>
+    <div class="tools">
+      <div class="tool-group">
         <button class="delete-btn">
           <i class="fa-solid fa-trash-can"></i>
         </button>
@@ -117,6 +131,32 @@
       </div>
     </div>
   </main>
+  <dialog id="save-dialog">
+    <h2>Save your painting</h2>
+    <img alt="Your painting" id="saveImg">
+    <form method="dialog">
+      <div class="form-group">
+        <label for="title">Give a title to it:</label>
+        <input id="title" name="title" type="text" required>
+      </div>
+      <button class="save-btn">Save</button>
+    </form>
+    <form method="dialog">
+      <button class="cancel-btn">Cancel</button>
+    </form>
+  </dialog>
+  <dialog id="load-dialog">
+    <h2>Load image:</h2>
+    <form method="dialog" id="gallery">
+
+    </form>
+    <form method="dialog">
+      <button value="cancel" class="cancel-btn">Cancel</button>
+    </form>
+  </dialog>
+  <dialog id="success-dialog">
+    <div>Picture successfully saved.</div>
+  </dialog>
 </body>
 
 </html>

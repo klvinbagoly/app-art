@@ -172,18 +172,24 @@ input[type="range"] {
   display: none;
 }
 
-.delete-btn {
-  background-color: tomato;
-  color: whitesmoke;
+button {
   padding: 5px 10px;
   border: 5px solid moccasin;
   border-radius: 10px;
   font-size: large;
   transition: all 0.5s ease-in-out;
+  color: whitesmoke;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: tomato;
 }
 
 .delete-btn:hover {
-  cursor: pointer;
   color: rgb(37, 37, 37);
   border-color: salmon;
   background-color: rgb(255, 144, 124);
@@ -193,4 +199,130 @@ input[type="range"] {
   font-size: larger;
   color: red;
   font-weight: bolder;
+}
+
+.save-btn {
+  background-color: green;
+}
+
+.save-btn:hover {
+  border-color: green;
+  background-color: lightgreen;
+  color: rgb(37, 37, 37);
+}
+
+.load-btn {
+  background-color: rgb(59, 16, 160);
+}
+
+.load-btn:hover {
+  border-color: rgb(59, 16, 160);
+  background-color: aqua;
+  color: rgb(37, 37, 37);
+}
+
+dialog {
+  background-color: cornsilk;
+  height: 80%;
+  width: 80%;
+  border: 1px solid grey;
+  border-radius: 2em;
+  transition: all 2s ease;
+}
+
+dialog h2 {
+  text-align: center;
+  font-size: 2em;
+}
+
+dialog form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.3em;
+}
+
+.form-group {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+.form-group input {
+  flex: 1;
+  margin: 1em;
+  line-height: 1.5em;
+  font-size: inherit;
+  padding: 0 0.5em;
+}
+
+#save-dialog img {
+  width: 60%;
+  display: block;
+  margin: 2em auto;
+  box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.cancel-btn {
+  float: right;
+  align-self: end;
+  background-color: rgb(37, 37, 37);
+}
+
+.cancel-btn:hover {
+  border-color: rgb(78, 78, 78);
+}
+
+#gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+#gallery img {
+  max-width: 500px;
+  cursor: pointer;
+}
+
+
+label.active img {
+  box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+#gallery figcaption {
+  text-align: center;
+  margin: 0.5em;
+}
+
+#gallery input[type="radio"] {
+  display: none;
+}
+
+#gallery button {
+  background-color: rgb(59, 16, 160);
+  width: 51%;
+  padding: 0.5em;
+  margin: auto;
+  display: block;
+  justify-self: center;
+}
+
+#gallery button:hover {
+  border-color: rgb(59, 16, 160);
+  background-color: aqua;
+  color: rgb(37, 37, 37);
+}
+
+#success-dialog[open] {
+  max-height: 350px;
+  font-size: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+::backdrop {
+  background: rgba(60, 60, 0, 0.5);
 }

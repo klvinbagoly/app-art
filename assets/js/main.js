@@ -162,12 +162,15 @@ const app = {
     const colorPicker = document.querySelector('#brushColor')
     const widthSlide = document.querySelector('#brushWidth')
     const widthIndicator = document.querySelector('.width-indicator')
-    const deleteBtn = document.querySelector('.delete-btn')
     const globalAlpha = document.querySelector('#globalAlpha')
     const shapeButtons = document.querySelectorAll('input[name="brushShape"]')
     const fillModeChecker = document.querySelector('#fillMode')
     const drawModeButtons = document.querySelectorAll('input[name="drawMode"]')
     const rectRadius = document.querySelector('input#rect-radius')
+
+    const deleteBtn = document.querySelector('.delete-btn')
+    const saveBtn = document.querySelector('.save-btn')
+    const loadBtn = document.querySelector('.load-btn')
 
     colorPicker.addEventListener('change', () => {
       this.color = colorPicker.value
@@ -238,6 +241,126 @@ const app = {
       output.value = rectRadius.value
       this.rectRadius = rectRadius.value
     })
+
+    saveBtn.addEventListener('click', this.initSave.bind(this))
+    loadBtn.addEventListener('click', this.initLoad.bind(this))
+  },
+
+  initSave() {
+    const saveDialog = document.querySelector('#save-dialog')
+    saveDialog.showModal()
+
+    const data = this.canvas.toDataURL()
+    const img = saveDialog.querySelector('img#saveImg')
+    img.src = data
+
+    const saveBtn = saveDialog.querySelector('button.save-btn')
+
+    saveBtn.onclick = (event) => {
+
+      const titleInput = saveDialog.querySelector('input#title')
+      const successDialog = document.querySelector('#success-dialog')
+      const images = JSON.parse(localStorage.getItem('images') || '[]')
+
+      if (!titleInput.value) {
+        titleInput.setCustomValidity('Please give a title.')
+        return
+      }
+
+      if (images.find(img => img.title === titleInput.value)) {
+        titleInput.setCustomValidity('There is already a picture with this title.')
+        return
+      }
+
+      titleInput.setCustomValidity('')
+
+      images.push({
+        title: titleInput.value,
+        data: data
+      })
+      localStorage.setItem('images', JSON.stringify(images))
+
+      if (!successDialog.open) successDialog.showModal()
+
+      let timeout = setTimeout(() => {
+        clearTimeout(timeout)
+        successDialog.close()
+      }, 3000)
+    }
+
+  },
+
+  initLoad() {
+    const loadDialog = document.querySelector('#load-dialog')
+    const gallery = loadDialog.querySelector('#gallery')
+    const images = JSON.parse(localStorage.getItem('images') || '[]')
+
+    loadDialog.showModal()
+    gallery.innerHTML = ''
+
+    if (!images.length) {
+      gallery.textContent = 'No images are saved yet.'
+      return
+    }
+
+    const loadBtn = document.createElement('button')
+    loadBtn.textContent = 'Load image'
+
+    images.forEach(image => {
+      const label = document.createElement('label')
+      label.setAttribute('for', image.title)
+
+      label.onclick = () => {
+        loadDialog.querySelectorAll('label').forEach(label => label.classList.remove('active'))
+        label.classList.add('active')
+      }
+
+      const figure = document.createElement('figure')
+      const img = new Image()
+      img.src = image.data
+
+      const figcaption = document.createElement('figcaption')
+      figcaption.textContent = image.title
+
+      const radio = document.createElement('input')
+      radio.type = 'radio'
+      radio.name = 'select'
+      radio.value = radio.id = image.title
+      radio.onchange = () => {
+        if (radio.checked) {
+          loadBtn.value = radio.value
+          console.log(loadBtn.value);
+        }
+      }
+
+      figure.appendChild(img)
+      figure.appendChild(figcaption)
+      figure.appendChild(radio)
+      label.appendChild(figure)
+      gallery.appendChild(label)
+    })
+
+    gallery.appendChild(loadBtn)
+
+    loadDialog.onclose = () => {
+      if (loadDialog.returnValue === 'cancel') return
+
+      const image = images.find(img => img.title === loadDialog.returnValue)
+      if (!image) {
+        document.write('ERROR: Picture not found');
+        return
+      }
+
+      const img = new Image()
+      img.src = image.data
+      img.onload = () => {
+        const w = Math.min(img.width, this.canvas.width)
+        const h = Math.min(img.height, this.canvas.height)
+        this.context.drawImage(img, 0, 0, w, h)
+        this.canvas.scrollIntoView({ behavior: 'smooth' })
+      }
+
+    }
   }
 }
 
