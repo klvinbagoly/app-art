@@ -46,7 +46,7 @@ const app = {
       if (this.fillMode) this.context.fill()
     })
 
-    window.addEventListener('resize', this.getCanvasSize.bind(this))
+    window.addEventListener('resize', this.adjustImage.bind(this))
     window.addEventListener('scroll', () => {
       this.canvasRect = this.canvas.getClientRects()[0]
       this.preview.width = this.canvas.width
@@ -156,6 +156,15 @@ const app = {
     this.canvas.height = parseInt(height)
 
     this.canvasRect = this.canvas.getClientRects()[0]
+  },
+
+  adjustImage() {
+    const img = new Image()
+    img.src = this.canvas.toDataURL()
+    this.getCanvasSize()
+    img.onload = () => {
+      this.context.drawImage(img, 0, 0, img.width, img.height)
+    }
   },
 
   setControls() {
@@ -268,7 +277,7 @@ const app = {
       }
 
       if (images.find(img => img.title === titleInput.value)) {
-        titleInput.setCustomValidity('There is already a picture with this title.')
+        titleInput.setCustomValidity(`There is already a picture with the title "${titleInput.value}".`)
         return
       }
 
@@ -318,6 +327,9 @@ const app = {
       const figure = document.createElement('figure')
       const img = new Image()
       img.src = image.data
+      if (images.length > 2) {
+        img.classList.add('more')
+      }
 
       const figcaption = document.createElement('figcaption')
       figcaption.textContent = image.title
@@ -347,9 +359,11 @@ const app = {
 
       const image = images.find(img => img.title === loadDialog.returnValue)
       if (!image) {
-        document.write('ERROR: Picture not found');
+        // no image selected.
         return
       }
+
+      loadDialog.returnValue = ''
 
       const img = new Image()
       img.src = image.data

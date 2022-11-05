@@ -286,6 +286,10 @@ dialog form {
   cursor: pointer;
 }
 
+#gallery img.more {
+  max-width: 300px;
+}
+
 
 label.active img {
   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
@@ -304,7 +308,7 @@ label.active img {
   background-color: rgb(59, 16, 160);
   width: 51%;
   padding: 0.5em;
-  margin: auto;
+  margin: 1em 25%;
   display: block;
   justify-self: center;
 }
