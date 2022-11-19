@@ -10,6 +10,7 @@ const app = {
   previewPath: null,
   startingPoint: [0, 0],
   drawMode: 'free',
+  specialEffect: '',
 
   color: 'black',
   width: 8,
@@ -140,8 +141,31 @@ const app = {
   finalizeShape(ev) {
     this.active = false
     this.previewCtx.clearRect(0, 0, this.preview.width, this.preview.height)
+
+    if (this.applyEffect()) return
+
     this.context.stroke(this.previewPath)
     if (this.fillMode) this.context.fill(this.previewPath)
+  },
+
+  applyEffect() {
+    if (!this.specialEffect) return false
+    if (!(this.specialEffect in Effect)) {
+      console.error("ERROR: Effect not specified:", this.specialEffect)
+      return
+    }
+
+    for (let y = 0; y < this.canvas.height; y++) {
+      for (let x = 0; x < this.canvas.width; x++) {
+        if (this.context.isPointInPath(this.previewPath, x, y)) {
+          const pixel = this.context.getImageData(x, y, 1, 1)
+          Effect[this.specialEffect](pixel)
+          this.context.putImageData(pixel, x, y)
+        }
+      }
+    }
+
+    return true
   },
 
   getCanvasCoordinates(ev) {
@@ -176,6 +200,8 @@ const app = {
     const fillModeChecker = document.querySelector('#fillMode')
     const drawModeButtons = document.querySelectorAll('input[name="drawMode"]')
     const rectRadius = document.querySelector('input#rect-radius')
+
+    const effectButtons = document.querySelectorAll('input[name="effects"]')
 
     const deleteBtn = document.querySelector('.delete-btn')
     const saveBtn = document.querySelector('.save-btn')
@@ -240,6 +266,13 @@ const app = {
         } else {
           this.preview.style.display = 'none'
         }
+        if (['rect', 'circle', 'circleCenter', 'ellipse'].includes(this.drawMode)) {
+          effects.style.display = 'block'
+        } else {
+          effects.style.display = 'none'
+          this.specialEffect = ''
+          effectButtons[0].checked = true
+        }
         const rectRadius = document.querySelector('.rect-radius')
         const rectRadiusEnabled = typeof this.context.roundRect === 'function'
         rectRadius.style.display = this.drawMode === 'rect' && rectRadiusEnabled ? 'flex' : 'none'
@@ -250,6 +283,12 @@ const app = {
       const output = document.querySelector('output[for="rect-radius"]')
       output.value = rectRadius.value
       this.rectRadius = rectRadius.value
+    })
+
+    effectButtons.forEach(button => {
+      button.addEventListener('change', () => {
+        if (button.checked) this.specialEffect = button.value
+      })
     })
 
     saveBtn.addEventListener('click', this.initSave.bind(this))
@@ -385,6 +424,7 @@ const app = {
     const img = new Image()
     img.src = URL.createObjectURL(file)
     img.onload = () => {
+      URL.revokeObjectURL(img.src)
       const aspectRatio = img.width / img.height
       if (aspectRatio < this.canvas.width / this.canvas.height) {
         this.context.drawImage(img, 0, 0, this.canvas.height * aspectRatio, this.canvas.height)
@@ -397,3 +437,42 @@ const app = {
 }
 
 window.onload = app.init.bind(app)
+
+const Effect = {
+  lighten(img) {
+    const data = img.data
+    data[0] += 20
+    data[1] += 20
+    data[2] += 20
+  },
+
+  darken(img) {
+    const data = img.data
+    data[0] -= 20
+    data[1] -= 20
+    data[2] -= 20
+  },
+
+  contrast(img) {
+    const data = img.data
+    for (let i = 0; i < 3; i++) {
+      if (data[i] > 127) {
+        data[i] += 20
+      } else {
+        data[i] -= 20
+      }
+    }
+  },
+
+  invert(img) {
+    const data = img.data
+    for (let i = 0; i < 3; i++) {
+      data[i] = 255 - data[i]
+    }
+  },
+
+  hueRotate(img) {
+    const data = img.data;
+    [data[0], data[1], data[2]] = [data[2], data[0], data[1]]
+  }
+}
