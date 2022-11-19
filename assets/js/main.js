@@ -179,7 +179,8 @@ const app = {
 
     const deleteBtn = document.querySelector('.delete-btn')
     const saveBtn = document.querySelector('.save-btn')
-    const loadBtn = document.querySelector('.load-btn')
+    const loadBtn = document.querySelector('#loadBtn')
+    const filePicker = document.getElementById('filePicker')
 
     colorPicker.addEventListener('change', () => {
       this.color = colorPicker.value
@@ -253,6 +254,8 @@ const app = {
 
     saveBtn.addEventListener('click', this.initSave.bind(this))
     loadBtn.addEventListener('click', this.initLoad.bind(this))
+
+    filePicker.addEventListener('change', () => this.loadFile(filePicker))
   },
 
   initSave() {
@@ -374,6 +377,21 @@ const app = {
         this.canvas.scrollIntoView({ behavior: 'smooth' })
       }
 
+    }
+  },
+
+  loadFile(filePicker) {
+    const file = filePicker.files[0]
+    const img = new Image()
+    img.src = URL.createObjectURL(file)
+    img.onload = () => {
+      const aspectRatio = img.width / img.height
+      if (aspectRatio < this.canvas.width / this.canvas.height) {
+        this.context.drawImage(img, 0, 0, this.canvas.height * aspectRatio, this.canvas.height)
+      } else {
+        this.context.drawImage(img, 0, 0, this.canvas.width, this.canvas.width / aspectRatio)
+      }
+      this.canvas.scrollIntoView({ behavior: 'smooth' })
     }
   }
 }

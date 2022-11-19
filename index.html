@@ -109,6 +109,16 @@
       </div>
     </fieldset>
     <div class="tools">
+      <button class="load-btn">
+        <label>
+          <input type="file" name="file" id="filePicker" accept="image/*">
+          <i class="fa-solid fa-database"></i>
+          Load file from disc
+          <span class="new">new!</span>
+        </label>
+      </button>
+    </div>
+    <div class="tools">
       <div class="tool-group">
         <button class="save-btn">
           <i class="fa fa-floppy-disk"></i>
@@ -116,7 +126,7 @@
         </button>
       </div>
       <div class="tool-group">
-        <button class="load-btn">
+        <button class="load-btn" id="loadBtn">
           <i class="fa fa-image"></i>
           Load picture from storage
         </button>

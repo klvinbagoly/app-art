@@ -151,6 +151,18 @@ input[type="range"] {
   accent-color: darkgreen;
 }
 
+input[type="file"] {
+  display: none;
+}
+
+.new {
+  background-color: beige;
+  font-variant: all-small-caps;
+  padding: 2px;
+  border-radius: 2px;
+  color: darkblue;
+}
+
 .tool-group {
   display: flex;
   align-items: center;
