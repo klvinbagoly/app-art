@@ -31,7 +31,7 @@ main {
 }
 
 #myCanvas {
-  cursor: crosshair;
+  cursor: url('../../pencil.png'), crosshair;
   width: 90%;
   height: 60%;
   margin: 20px auto;
@@ -41,7 +41,7 @@ main {
 }
 
 #preview {
-  cursor: crosshair;
+  cursor: url('../../pencil.png'), crosshair;
   display: none;
   position: absolute;
   border: 10px solid transparent;
